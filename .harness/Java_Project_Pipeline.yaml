@@ -1,0 +1,60 @@
+pipeline:
+  name: Java Project Pipeline
+  identifier: Java_Project_Pipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Github_OAuth_1693812039869
+        repoName: git@github.com:vishalvaidya269/sample-java-app.git
+        build: <+input>
+  stages:
+    - stage:
+        name: CloneJavaCode
+        identifier: CloneJavaCode
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: echo "Java code clone from GitRepo"
+                  description: CloneCode
+    - stage:
+        name: BuildCode
+        identifier: BuildCode
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: DockerHubConnector
+                    repo: https://github.com/vishalvaidya269/newcode
+                    tags:
+                      - newcodedockerhub
